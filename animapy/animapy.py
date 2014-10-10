@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 import urllib2
-import json
 
 class animapy:
     def searchAnimes(self, anime):
