@@ -2,8 +2,9 @@ from bs4 import BeautifulSoup
 import urllib2
 import json
 
-class animapy:
-    def searchAnimes(self, anime):
+class animapy(object):
+    @classmethod
+    def searchAnimes(cls, anime):
         uri = 'http://www.anitube.se/search/basic/1/?sort=addate&search_type=&search_id=' + anime
         content = urllib2.urlopen(uri).read()
         soup = BeautifulSoup(content)
@@ -15,6 +16,3 @@ class animapy:
             for line in response:
                 if '_hd' in line:
                     print line.rstrip()[9:-2]
-
-x = animapy()
-x.searchAnimes('naruto')
