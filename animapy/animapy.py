@@ -37,7 +37,7 @@ class animapy(object):
                     else:
                         normal = line.rstrip()[9:-2]
             
-            movie = result()
+            movie = cls.result()
             movie.title = title
             movie.image = image
             movie.normal= normal
