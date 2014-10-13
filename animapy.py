@@ -3,7 +3,7 @@ import urllib2
 
 
 
-class animapy(object):
+class anime(object):
     class result: pass
         
     @classmethod
@@ -44,5 +44,3 @@ class animapy(object):
             movie.hd = hd
             movies.append(movie)
         return movies
-
-teste = animapy.searchAnimes('naruto')
