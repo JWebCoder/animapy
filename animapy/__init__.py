@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 import urllib2
 
 
-
 class anime(object):
     class result: pass
         
@@ -21,7 +20,7 @@ class anime(object):
             aTag = links[index].find('div', { "class" : 'videoTitle' }).a
             
             title = aTag.contents[0].encode('ascii','ignore')
-            image = links[quant].find('img').get('src').encode('ascii','ignore')
+            image = links[index].find('img').get('src').encode('ascii','ignore')
             hd = ''
             normal = ''
             
