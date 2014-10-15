@@ -7,6 +7,7 @@ class anime(object):
         
     @classmethod
     def searchAnimes(cls, anime, quant = 10, order = None):
+        anime = anime.replace(" ", "+")
         if order == 'date':
             uri = 'http://www.anitube.se/search/basic/1/?sort=addate&search_type=&search_id=' + anime
         else:
