@@ -23,7 +23,7 @@ setup(
 
         'Intended Audience :: Developers',
 
-        'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
 
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
@@ -32,9 +32,11 @@ setup(
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        
+        'Topic :: Internet :: WWW/HTTP :: Indexing/Search'
     ],
 
-    keywords='anime api',
+    keywords='anime api animapy',
 
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
 
