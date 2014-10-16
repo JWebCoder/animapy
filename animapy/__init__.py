@@ -17,10 +17,11 @@ class anime(object):
 
     def __getPTMetaData(self, anime, quant, order):
         if order == 'date':
-            uri = 'http://www.anitube.se/search/basic/1/?sort=addate&search_type=&search_id=' + anime
+            url = 'http://www.anitube.se/search/basic/1/?sort=addate&search_type=&search_id=' + anime
         else:
-            uri = 'http://www.anitube.se/search/?search_id=' + anime
-        content = urllib2.urlopen(uri).read()
+            url = 'http://www.anitube.se/search/?search_id=' + anime
+            
+        content = self.__calUrl(url)
         soup = BeautifulSoup(content)
         links = soup.findAll('li', { "class" : 'mainList' })
         movies = []
@@ -35,7 +36,8 @@ class anime(object):
             hd = ''
             normal = ''
             
-            newSoup = BeautifulSoup(urllib2.urlopen(aTag.get('href').encode('ascii','ignore')).read())
+            content = self.__calUrl(aTag.get('href'))
+            newSoup = BeautifulSoup(content)
             data = newSoup.find(id="videoPlayer").findAll('script')[2].get('src')
             
             response = urllib2.urlopen(data)
@@ -55,17 +57,19 @@ class anime(object):
             movies.append(movie)
         return movies
 
+
     def __getENMetaData(self, anime, quant, order):
         # full link http://www.nwanime.com/search_result.php?&search_type=search_videos&search_id=naruto+200&sort=title&search_key=&search_for=all&videoold=&ordertype=DESC
         if order == 'date':
-            uri = 'http://www.nwanime.com/search_result.php?&search_type=search_videos&search_id=' + anime + '&sort=adddate &search_key=&search_for=all&videoold=&ordertype=DESC'
+            url = 'http://www.nwanime.com/search_result.php?&search_type=search_videos&search_id=' + anime + '&sort=adddate &search_key=&search_for=all&videoold=&ordertype=DESC'
         else:
-            uri = 'http://www.nwanime.com/search_result.php?&search_type=search_videos&search_id=' + anime + '&sort=title&search_key=&search_for=all&videoold=&ordertype=DESC'
-        req = urllib2.Request(uri, headers={'User-Agent' : "Magic Browser"})
-        content = urllib2.urlopen(req).read()
+            url = 'http://www.nwanime.com/search_result.php?&search_type=search_videos&search_id=' + anime + '&sort=title&search_key=&search_for=all&videoold=&ordertype=DESC'
+        
+        content = self.__calUrl(url)
         soup = BeautifulSoup(content)
         items = soup.findAll('div', { "class" : 'resultstats_large' })
         movies = []
+        
         if len(items) < quant:
             quant = len(items)
         for index in range(quant):
@@ -77,14 +81,13 @@ class anime(object):
             title = aTag.contents[0].encode('ascii','ignore')
             normal = ''
             image = ''
-            req = urllib2.Request(aTag.get('href').encode('ascii','ignore'), headers={'User-Agent' : "Magic Browser"})
-            content = urllib2.urlopen(req).read()
+
+            content = self.__calUrl(aTag.get('href'))
             newSoup = BeautifulSoup(content)
-            
-            data = newSoup.find(id="embed_holder").iframe.get('src')
-            req = urllib2.Request(data, headers={'User-Agent' : "Magic Browser"})
-            content = urllib2.urlopen(req).read()
+                                    
+            content = self.__calUrl(newSoup.find(id="embed_holder").iframe.get('src'))
             newSoup = BeautifulSoup(content)
+                                    
             data = newSoup.body.findAll('script')[5].contents[0]
             
             normal = re.search('file:\s"([^"]+)"', data).group(0)[7:-2]
@@ -97,14 +100,22 @@ class anime(object):
             movies.append(movie)
         return movies
 
+
+    def __calUrl(self, url):
+        req = urllib2.Request(url.encode('ascii','ignore'), headers={'User-Agent' : "Magic Browser"})
+        return urllib2.urlopen(req).read()
+
 '''
 teste1 = anime.searchAnimes('naruto 382', quant=1)
 teste2 = anime.searchAnimes('naruto', quant=1, lang='en')
 
-print teste1[0].title
-print teste1[0].image
-print teste1[0].hd
-print teste2[0].title
-print teste2[0].image
-print teste2[0].normal
+print '\nPt Version:'
+print 'Title: ' + teste1[0].title
+print 'Image: ' + teste1[0].image
+print 'HD: ' + teste1[0].hd
+print 'Normal: ' + teste1[0].normal
+print '\nEn Version:'
+print 'Title: ' + teste2[0].title
+print 'Image: ' + teste2[0].image
+print 'Normal: ' + teste2[0].normal
 '''
