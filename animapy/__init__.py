@@ -49,19 +49,14 @@ class anime(object):
                     else:
                         normal = line.rstrip()[9:-2]
             
-            movie = self.result()
-            movie.title = title
-            movie.image = image
-            movie.normal= normal
-            movie.hd = hd
-            movies.append(movie)
+            movies.append(self.__createObject(title, image, normal, hd))
         return movies
 
 
     def __getENMetaData(self, anime, quant, order):
         # full link http://www.nwanime.com/search_result.php?&search_type=search_videos&search_id=naruto+200&sort=title&search_key=&search_for=all&videoold=&ordertype=DESC
         if order == 'date':
-            url = 'http://www.nwanime.com/search_result.php?&search_type=search_videos&search_id=' + anime + '&sort=adddate &search_key=&search_for=all&videoold=&ordertype=DESC'
+            url = 'http://www.nwanime.com/search_result.php?&search_type=search_videos&search_id=' + anime + '&sort=adddate&search_key=&search_for=all&videoold=&ordertype=DESC'
         else:
             url = 'http://www.nwanime.com/search_result.php?&search_type=search_videos&search_id=' + anime + '&sort=title&search_key=&search_for=all&videoold=&ordertype=DESC'
         
@@ -93,17 +88,22 @@ class anime(object):
             normal = re.search('file:\s"([^"]+)"', data).group(0)[7:-2]
             image = re.search('img:\s"([^"]+)"', data).group(0)[6:-2]
             
-            movie = self.result()
-            movie.title = title
-            movie.image = image
-            movie.normal= normal
-            movies.append(movie)
+            movies.append(self.__createObject(title, image, normal))
         return movies
 
 
     def __calUrl(self, url):
         req = urllib2.Request(url.encode('ascii','ignore'), headers={'User-Agent' : "Magic Browser"})
         return urllib2.urlopen(req).read()
+
+
+    def __createObject(self, title, image, normal='', hd=''):
+        movie = self.result()
+        movie.title = title
+        movie.image = image
+        movie.normal= normal
+        movie.hd = hd
+        return movie
 
 '''
 teste1 = anime.searchAnimes('naruto 382', quant=1)
