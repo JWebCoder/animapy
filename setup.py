@@ -7,7 +7,7 @@ here = path.abspath(path.dirname(__file__))
 setup(
     name='Animapy',
 
-    version='1.3.7',
+    version='1.4',
 
     description='An anime API for python',
 
@@ -36,7 +36,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Indexing/Search'
     ],
 
-    keywords='anime api animapy',
+    keywords='anime api animapy anitube nwanime',
 
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
 
