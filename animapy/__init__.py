@@ -120,7 +120,7 @@ class anime(object):
         epObject.hd = hd
         return epObject
 
-    
+'''
 teste1 = anime.searchAnimes('naruto 382', quant=2)
 teste2 = anime.searchAnimes('naruto', quant=3, lang='en')
 
@@ -140,3 +140,4 @@ print 'Normal: ' + teste2[0].normal
 print '\nTitle: ' + teste2[1].title
 print 'Image: ' + teste2[1].image
 print 'Normal: ' + teste2[1].normal
+'''
