@@ -9,7 +9,7 @@ Run `pip install Animapy`, or clone the repo and run `python setup.py install`.
 #Info
 The PT subbed episodes comes from Anitube website.
 
-The EN subbed episodes comes comes from NWanime website.
+The EN subbed episodes comes from NWanime website.
 
 #Usage:
 ```
