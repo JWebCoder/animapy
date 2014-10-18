@@ -1,42 +1,39 @@
 from bs4 import BeautifulSoup
 import urllib2
-from helpers import functions
+from helpers.common import functions
 
-class anitube(object):
+class anitube(functions):
     
-    def getAnimes(self, anime, quant, offset, order, parent):
+    def getAnimes(self, anime, quant, offset, order, parent, position):
         # gets the correct URL
         if order == 'date':
             url = 'http://www.anitube.se/search/basic/1/?sort=addate&search_type=&search_id=' + anime
         else:
             url = 'http://www.anitube.se/search/?search_id=' + anime
             
-        content = functions.calUrl(url)
+        content = self.calUrl(url)
         soup = BeautifulSoup(content)
         links = soup.findAll('li', { "class" : 'mainList' })
-        episodes = []
-        
+
+        episodes = None
         # in case the result is lower than the desired quantity
         # quant resets to result count
-        if len(links) < quant:
-            quant = len(links)
-        
-        # loops throught the result
-        for index in range(quant):
-            aTag = links[index + offset].find('div', { "class" : 'videoTitle' }).a
+        if len(links) > offset:
             
+            aTag = links[offset].find('div', { "class" : 'videoTitle' }).a
+
             title = aTag.contents[0].encode('ascii','ignore')
-            image = links[index + offset].find('img').get('src').encode('ascii','ignore')
+            image = links[offset].find('img').get('src').encode('ascii','ignore')
             hd = ''
             normal = ''
-            
+
             # calls to get the movie url
-            content = functions.calUrl(aTag.get('href'))
+            content = self.calUrl(aTag.get('href'))
             newSoup = BeautifulSoup(content)
             data = newSoup.find(id="videoPlayer").findAll('script')[2].get('src')
-            
+
             response = urllib2.urlopen(data)
-            
+
             # loops throught the javascript lines to get the movie links
             for line in response:
                 if 'cdn.anitu.be' in line:
@@ -44,7 +41,8 @@ class anitube(object):
                         hd = line.rstrip()[9:-2]
                     else:
                         normal = line.rstrip()[9:-2]
-            
-            episodes.append(functions.createObject(title, image, normal, hd))
-        parent.setResult(episodes)
+
+            episodes = self.createObject(title, image, normal, hd)
+        if episodes != None:
+            parent.setResult(episodes, position)
         parent.count = parent.count + 1
