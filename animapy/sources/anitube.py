@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import urllib2
-from helpers.common import functions
+from animapy.helpers.common import functions
 
 class anitube(functions):
     

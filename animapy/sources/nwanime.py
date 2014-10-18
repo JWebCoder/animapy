@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import re
-from helpers.common import functions
+from animapy.helpers.common import functions
 
 class nwanime(functions):
     
