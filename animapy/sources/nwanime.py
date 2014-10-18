@@ -40,7 +40,7 @@ class nwanime(object):
                     if len(scripts) < 9:
                         data = scripts[2].contents[0]
                         normal = re.search("'file':\s'([^']+)'", data).group(0)[7:-2]
-                        image = ''
+                        image = re.search("//'image':\s'([^']+)'", data).group(0)[12:-1]
                     else:
                         data = scripts[5].contents[0]
                         normal = re.search('file:\s"([^"]+)"', data).group(0)[7:-2]

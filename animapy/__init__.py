@@ -41,12 +41,3 @@ class anime(object):
             while self.count != quant:
                 pass
             return self.data
-
-
-teste = anime.searchAnimes('naruto', 10)
-teste2 = anime.searchAnimes('naruto', 10, lang='en')
-print len(teste)
-print len(teste2)
-print teste2[0].title
-print teste2[1].title
-print teste2[2].title

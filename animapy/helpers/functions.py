@@ -8,7 +8,6 @@ def calUrl(url):
 
 # creates the returned object
 def createObject(title, image, normal='', hd=''):
-    
     epObject = result()
     epObject.title = title
     epObject.image = image
