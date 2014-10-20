@@ -3,27 +3,17 @@ import urllib2
 from animapy.helpers.common import functions
 
 class anitube(functions):
-    
-    def getAnimes(self, anime, quant, offset, order, parent, position):
-        # gets the correct URL
-        if order == 'date':
-            url = 'http://www.anitube.se/search/basic/1/?sort=addate&search_type=&search_id=' + anime
-        else:
-            url = 'http://www.anitube.se/search/?search_id=' + anime
-            
-        content = self.calUrl(url)
-        soup = BeautifulSoup(content)
-        links = soup.findAll('li', { "class" : 'mainList' })
+
+    def getAnimes(self, offset, items, parent, position):
 
         episodes = None
-        # in case the result is lower than the desired quantity
-        # quant resets to result count
-        if len(links) > offset:
+        # in case the result is lower than the desired offset returns None
+        if len(items) > offset:
             
-            aTag = links[offset].find('div', { "class" : 'videoTitle' }).a
+            aTag = items[offset].find('div', { "class" : 'videoTitle' }).a
 
             title = aTag.contents[0].encode('ascii','ignore')
-            image = links[offset].find('img').get('src').encode('ascii','ignore')
+            image = items[offset].find('img').get('src').encode('ascii','ignore')
             hd = ''
             normal = ''
 
@@ -46,3 +36,15 @@ class anitube(functions):
         if episodes != None:
             parent.setResult(episodes, position)
         parent.count = parent.count + 1
+        
+    def getSearchItems(self, anime, order):
+        # gets the correct URL
+        if order == 'date':
+            url = 'http://www.anitube.se/search/basic/1/?sort=addate&search_type=&search_id=' + anime
+        else:
+            url = 'http://www.anitube.se/search/?search_id=' + anime
+            
+        content = self.calUrl(url)
+        soup = BeautifulSoup(content)
+        # returns all the items
+        return soup.findAll('li', { "class" : 'mainList' })

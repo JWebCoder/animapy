@@ -1,7 +1,7 @@
 from animapy import anime
 
 teste1 = anime.searchAnimes('naruto 382', quant=10)
-#teste2 = anime.searchAnimes('naruto', quant=10, lang='en')
+teste2 = anime.searchAnimes('naruto', quant=10, lang='en')
 
 
 print '\nPt Version:\n'

@@ -15,17 +15,24 @@ The EN subbed episodes comes from NWanime website.
 ```
 from animapy import anime
 
-resultsPT = anime.searchAnimes('naruto', quant=10, order='date', lang='pt')
-for result in resultsPT:
-    print result.title
-    print result.image
-    print result.hd
-    print result.normal
-    
-resultsEN = anime.searchAnimes('naruto', quant=10, order='date', lang='en')
-for result in resultsEN:
-    print result.title
-    print result.image
-    print result.hd
-    print result.normal
+resultsPT = anime.searchAnimes('naruto 382', quant=10)
+resultsEN = anime.searchAnimes('naruto', quant=10, lang='en')
+
+
+print '\nPt Version:\n'
+for ep in resultsPT:
+    if ep != '':
+        print 'Title: ' + ep.title
+        print 'Image: ' + ep.image
+        print 'Normal: ' + ep.normal
+        print 'HD: ' + ep.hd
+        print '\n'
+
+print '\n\nEn Version:\n'
+for ep in resultsEN:
+    if ep != '':
+        print 'Title: ' + ep.title
+        print 'Image: ' + ep.image
+        print 'Normal: ' + ep.normal
+        print '\n'
 ```

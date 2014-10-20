@@ -1,3 +1,8 @@
+###v 1.5.1
+Code reduction
+Minor speed improvement, reduced the number of search calls to only 1
+Updated README.md
+
 ###v 1.5
 Each thread retrieves one result with an offset
 Fixed get image for episode in NWanime new discovered iframe

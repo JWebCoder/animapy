@@ -4,21 +4,10 @@ from animapy.helpers.common import functions
 
 class nwanime(functions):
     
-    def getAnimes(self, anime, quant, offset, order, parent, position):
-        # gets the correct URL
-        if order == 'date':
-            url = 'http://www.nwanime.com/search_result.php?&search_type=search_videos&search_id=' + anime + '&sort=adddate&search_key=&search_for=all&videoold=&ordertype=DESC'
-        else:
-            url = 'http://www.nwanime.com/search_result.php?&search_type=search_videos&search_id=' + anime + '&sort=title&search_key=&search_for=all&videoold=&ordertype=DESC'
-        
-        content = self.calUrl(url)
-        soup = BeautifulSoup(content)
-        items = soup.findAll('div', { "class" : 'resultstats_large' })
+    def getAnimes(self, offset, items, parent, position):
+
         episodes = None
-        
-        # in case the result is lower than the desired quantity
-        # quant resets to result count
-        
+        # in case the result is lower than the desired offset returns None
         if len(items) > offset:
             
             aTag = items[offset].a
@@ -48,3 +37,15 @@ class nwanime(functions):
         if episodes != None:
             parent.setResult(episodes, position)
         parent.count = parent.count + 1
+    
+    def getSearchItems(self, anime, order):
+        # gets the correct URL
+        if order == 'date':
+            url = 'http://www.nwanime.com/search_result.php?&search_type=search_videos&search_id=' + anime + '&sort=adddate&search_key=&search_for=all&videoold=&ordertype=DESC'
+        else:
+            url = 'http://www.nwanime.com/search_result.php?&search_type=search_videos&search_id=' + anime + '&sort=title&search_key=&search_for=all&videoold=&ordertype=DESC'
+            
+        content = self.calUrl(url)
+        soup = BeautifulSoup(content)
+        # returns all the items
+        return soup.findAll('div', { "class" : 'resultstats_large' })

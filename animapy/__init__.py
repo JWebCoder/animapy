@@ -25,18 +25,15 @@ class anime(object):
         self.data = [''] * quant
         if lang == 'pt':
             animes = anitube()
-            for i in range(quant):
-                thread.start_new_thread( animes.getAnimes, (anime, 1, i, order, self, i,) )
-
-            while self.count != quant:
-                pass
-            return self.data
+            items = animes.getSearchItems(anime, order)
             
         else: #if any other language, returns the EN version
-            animes = nwanime()
-            for i in range(quant):
-                thread.start_new_thread( animes.getAnimes, (anime, 1, i, order, self, i,) )
+            animes = anitube()
+            items = animes.getSearchItems(anime, order)
+        
+        for i in range(quant):
+            thread.start_new_thread( animes.getAnimes, (i, items, self, i,) )
 
-            while self.count != quant:
-                pass
-            return self.data
+        while self.count != quant:
+            pass
+        return self.data
