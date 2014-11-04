@@ -12,6 +12,8 @@ class functions(object):
         epObject = self.result()
         epObject.title = title
         epObject.image = image
-        epObject.normal= normal
-        epObject.hd = hd
+        if normal != '':
+            epObject.normal= normal
+        if hd != '':
+            epObject.hd = hd
         return epObject

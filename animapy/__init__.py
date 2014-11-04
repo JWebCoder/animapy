@@ -13,6 +13,12 @@ class anime(object):
         return cls().__getData(anime, quant, order, lang)
     
     
+    @classmethod
+    def searchAnimesNoVideo(cls, anime, quant, order = None, lang='pt'):
+        anime = anime.replace(" ", "+")
+        return cls().__getData(anime, quant, order, lang, False)
+    
+    
     def __returner(self, data):
         self.count = self.count + 1
         
@@ -20,7 +26,7 @@ class anime(object):
     def setResult(self, episodes, position):
         self.data[position] = episodes
 
-    def __getData(self, anime, quant, order, lang):
+    def __getData(self, anime, quant, order, lang, video=True):
         self.count = 0
         self.data = [''] * quant
         if lang == 'pt':
@@ -28,12 +34,15 @@ class anime(object):
             items = animes.getSearchItems(anime, order)
             
         else: #if any other language, returns the EN version
-            animes = anitube()
+            animes = nwanime()
             items = animes.getSearchItems(anime, order)
         
-        for i in range(quant):
-            thread.start_new_thread( animes.getAnimes, (i, items, self, i,) )
+        if video:
+            for i in range(quant):
+                thread.start_new_thread( animes.getAnimes, (i, items, self, i,) )
 
-        while self.count != quant:
-            pass
+            while self.count != quant:
+                pass
+        else:
+            animes.getAnimesMetadata(items, quant, self)
         return self.data

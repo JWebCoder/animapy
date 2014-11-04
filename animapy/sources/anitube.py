@@ -36,7 +36,25 @@ class anitube(functions):
         if episodes != None:
             parent.setResult(episodes, position)
         parent.count = parent.count + 1
+
+
+    def getAnimesMetadata(self, items, quant, parent):
+        if len(items) < quant:
+            quant = len(items)
         
+        # in case the result is lower than the desired offset returns None
+        for i in range(quant):
+            episodes = None
+            aTag = items[i].find('div', { "class" : 'videoTitle' }).a
+
+            title = aTag.contents[0].encode('ascii','ignore')
+            image = items[i].find('img').get('src').encode('ascii','ignore')
+
+            episodes = self.createObject(title, image)
+            if episodes != None:
+                parent.setResult(episodes, i)
+
+
     def getSearchItems(self, anime, order):
         # gets the correct URL
         if order == 'date':

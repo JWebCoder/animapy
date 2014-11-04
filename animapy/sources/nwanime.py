@@ -37,7 +37,41 @@ class nwanime(functions):
         if episodes != None:
             parent.setResult(episodes, position)
         parent.count = parent.count + 1
-    
+
+
+    def getAnimesMetadata(self, items, quant, parent):
+        if len(items) < quant:
+            quant = len(items)
+        
+        # in case the result is lower than the desired offset returns None
+        for i in range(quant):
+            episodes = None
+            aTag = items[i].a
+            children = items[i].findChildren(recursive=False)
+            for child in children:
+                if child.name == 'a':
+                    aTag = child
+            title = aTag.contents[0].encode('ascii','ignore')
+
+            # calls to get the movie url
+            content = self.calUrl(aTag.get('href'))
+            newSoup = BeautifulSoup(content)
+            if newSoup.find(id="embed_holder").iframe != None:
+                content = self.calUrl(newSoup.find(id="embed_holder").iframe.get('src'))
+                newSoup = BeautifulSoup(content)
+                scripts = newSoup.body.findAll('script')
+                if len(scripts) < 9:
+                    data = scripts[2].contents[0]
+                    image = re.search("//'image':\s'([^']+)'", data).group(0)[12:-1]
+                else:
+                    data = scripts[5].contents[0]
+                    image = re.search('img:\s"([^"]+)"', data).group(0)[6:-2]
+
+                episodes = self.createObject(title, image)
+            if episodes != None:
+                parent.setResult(episodes, i)
+
+
     def getSearchItems(self, anime, order):
         # gets the correct URL
         if order == 'date':

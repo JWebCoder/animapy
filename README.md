@@ -18,6 +18,8 @@ from animapy import anime
 resultsPT = anime.searchAnimes('naruto 382', quant=10)
 resultsEN = anime.searchAnimes('naruto', quant=10, lang='en')
 
+resultsPTNoVideo = anime.searchAnimesNoVideo('naruto 382', quant=10)
+resultsENNoVideo = anime.searchAnimesNoVideo('naruto', quant=10, lang='en')
 
 print '\nPt Version:\n'
 for ep in resultsPT:
@@ -34,5 +36,19 @@ for ep in resultsEN:
         print 'Title: ' + ep.title
         print 'Image: ' + ep.image
         print 'Normal: ' + ep.normal
+        print '\n'
+
+print '\nPt Version No Video:\n'
+for ep in resultsPTNoVideo:
+    if ep != '':
+        print 'Title: ' + ep.title
+        print 'Image: ' + ep.image
+        print '\n'
+
+print '\n\nEn Version No Video:\n'
+for ep in resultsENNoVideo:
+    if ep != '':
+        print 'Title: ' + ep.title
+        print 'Image: ' + ep.image
         print '\n'
 ```

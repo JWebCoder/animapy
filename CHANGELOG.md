@@ -1,3 +1,9 @@
+###v 1.5.2
+Added no video retrieving method
+Bug fixes in english search
+Updated README.md
+
+
 ###v 1.5.1
 Code reduction
 Minor speed improvement, reduced the number of search calls to only 1
