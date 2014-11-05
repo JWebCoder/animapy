@@ -18,8 +18,8 @@ from animapy import anime
 resultsPT = anime.searchAnimes('naruto 382', quant=10)
 resultsEN = anime.searchAnimes('naruto', quant=10, lang='en')
 
-resultsPTNoVideo = anime.searchAnimesNoVideo('naruto 382', quant=10)
-resultsENNoVideo = anime.searchAnimesNoVideo('naruto', quant=10, lang='en')
+resultsPTNoVideo = anime.searchAnimesMetadata('naruto 382', quant=10)
+resultsENNoVideo = anime.searchAnimesMetadata('naruto', quant=10, lang='en')
 
 print '\nPt Version:\n'
 for ep in resultsPT:
