@@ -72,6 +72,7 @@ class nwanime(functions):
         # calls to get the movie url
         content = self.calUrl(link)
         newSoup = BeautifulSoup(content)
+        normal = ''
         if newSoup.find(id="embed_holder").iframe != None:
             content = self.calUrl(newSoup.find(id="embed_holder").iframe.get('src'))
             newSoup = BeautifulSoup(content)

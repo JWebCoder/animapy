@@ -8,7 +8,7 @@ class functions(object):
         return urllib2.urlopen(req).read()
 
     # creates the returned object
-    def createObject(self, title, image, normal='', hd='', link=''):
+    def createObject(self, title='', image='', normal='', hd='', link=''):
         epObject = self.result()
         epObject.title = title
         epObject.image = image

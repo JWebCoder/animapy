@@ -8,18 +8,20 @@ import time
 class anime(object):
 
     @classmethod
-    def searchAnimes(cls, anime, quant, order = None, lang='pt'):
+    def searchAnimes(cls, anime, quant, order = '', lang='pt'):
         return cls().__getData(anime, quant, order, lang)
 
 
     @classmethod
-    def searchAnimesMetadata(cls, anime, quant, order = None, lang='pt'):
+    def searchAnimesMetadata(cls, anime, quant, order = '', lang='pt'):
         return cls().__getData(anime, quant, order, lang, False)
 
 
     @classmethod
     def getAnimeLinks(cls, link, lang='pt'):
-        return cls().animes.getVideoFromLink(link)
+        obj = cls()
+        obj.__setTarget(lang)
+        return obj.animes.getVideoFromLink(link)
 
 
     def setResult(self, episodes, position):
@@ -47,9 +49,8 @@ class anime(object):
         return self.data
 
 
-    def __getVideos(self, items, quant, lang):
+    def __getVideos(self, items, quant):
         self.count = 0
-        self.__setTarget(lang)
         for i in range(quant):
             thread.start_new_thread( self.animes.getVideos, (i, items, self, i,) )
 
