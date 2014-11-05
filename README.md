@@ -14,7 +14,7 @@ The EN subbed episodes comes from NWanime website.
 ##Usage:
 
 ####To get the results of a search:
-```
+```python
 from animapy import anime
 
 teste1 = anime.searchAnimes('naruto 382', quant=10)
@@ -42,7 +42,7 @@ for ep in teste2:
 ```
 
 ####To get just the title and images of a search:
-```
+```python
 from animapy import anime
 
 teste1 = anime.searchAnimesMetadata('naruto 382', quant=3)
@@ -65,7 +65,7 @@ for ep in teste2:
 ```
 
 ####To get just the link of the anime file:
-```
+```python
 from animapy import anime
 
 teste1 = anime.getAnimeLinks('http://www.anitube.se/video/79734/Ai-Tenchi-Muyo--22')
