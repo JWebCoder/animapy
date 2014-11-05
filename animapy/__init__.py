@@ -10,39 +10,54 @@ class anime(object):
     @classmethod
     def searchAnimes(cls, anime, quant, order = None, lang='pt'):
         anime = anime.replace(" ", "+")
-        return cls().__getData(anime, quant, order, lang)
-    
-    
+        obj = cls()
+        obj.__setTarget(lang)
+        return obj.__getData(anime, quant, order, lang)
+
+
     @classmethod
     def searchAnimesNoVideo(cls, anime, quant, order = None, lang='pt'):
         anime = anime.replace(" ", "+")
-        return cls().__getData(anime, quant, order, lang, False)
-    
-    
-    def __returner(self, data):
-        self.count = self.count + 1
-        
-    
+        obj = cls()
+        obj.__setTarget(lang)
+        return obj.__getData(anime, quant, order, False)
+
+
+    @classmethod
+    def getAnimeLinks(cls, link, lang='pt'):
+        obj = cls()
+        obj.__setTarget(lang)
+        return obj.animes.getVideoFromLink(link)
+
+
     def setResult(self, episodes, position):
         self.data[position] = episodes
 
-    def __getData(self, anime, quant, order, lang, video=True):
-        self.count = 0
-        self.data = [''] * quant
+
+    #defines the target object according to the language set
+    def __setTarget(self, lang):
         if lang == 'pt':
-            animes = anitube()
-            items = animes.getSearchItems(anime, order)
-            
+            self.animes = anitube()
         else: #if any other language, returns the EN version
-            animes = nwanime()
-            items = animes.getSearchItems(anime, order)
+            self.animes = nwanime()
+
+
+    def __getData(self, anime, quant, order, video=True):
+        
+        items = self.animes.getSearchItems(anime, order)
         
         if video:
-            for i in range(quant):
-                thread.start_new_thread( animes.getAnimes, (i, items, self, i,) )
-
-            while self.count != quant:
-                pass
+            self.data = [''] * quant
+            self.__getVideos(items, quant)
         else:
-            animes.getAnimesMetadata(items, quant, self)
+            self.data = self.animes.getAnimesMetadata(items, quant)
         return self.data
+
+
+    def __getVideos(self, items, quant):
+        self.count = 0
+        for i in range(quant):
+            thread.start_new_thread( self.animes.getVideos, (i, items, self, i,) )
+
+        while self.count != quant:
+            pass

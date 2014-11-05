@@ -4,7 +4,7 @@ from animapy.helpers.common import functions
 
 class nwanime(functions):
     
-    def getAnimes(self, offset, items, parent, position):
+    def getVideos(self, offset, items, parent, position):
 
         episodes = None
         # in case the result is lower than the desired offset returns None

@@ -1,3 +1,9 @@
+###v 1.5.3
+Code Structure rethought
+Added possibility to get the video url based on a direct page link
+Speed improvements
+Updated README.md
+
 ###v 1.5.2
 Added no video retrieving method
 Bug fixes in english search

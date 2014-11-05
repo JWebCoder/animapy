@@ -4,56 +4,43 @@ from animapy.helpers.common import functions
 
 class anitube(functions):
 
-    def getAnimes(self, offset, items, parent, position):
-
+    def getVideos(self, offset, items, parent, position):
         episodes = None
         # in case the result is lower than the desired offset returns None
         if len(items) > offset:
+            metaData = self.__getMetadata(items[offset])
             
-            aTag = items[offset].find('div', { "class" : 'videoTitle' }).a
+            links = self.__getVideoLinks(metaData['link'])
 
-            title = aTag.contents[0].encode('ascii','ignore')
-            image = items[offset].find('img').get('src').encode('ascii','ignore')
-            hd = ''
-            normal = ''
-
-            # calls to get the movie url
-            content = self.calUrl(aTag.get('href'))
-            newSoup = BeautifulSoup(content)
-            data = newSoup.find(id="videoPlayer").findAll('script')[2].get('src')
-
-            response = urllib2.urlopen(data)
-
-            # loops throught the javascript lines to get the movie links
-            for line in response:
-                if 'cdn.anitu.be' in line:
-                    if '_hd' in line:
-                        hd = line.rstrip()[9:-2]
-                    else:
-                        normal = line.rstrip()[9:-2]
-
-            episodes = self.createObject(title, image, normal, hd)
+            episodes = self.createObject(metaData['title'], metaData['image'], links['normal'], links['hd'])
         if episodes != None:
             parent.setResult(episodes, position)
         parent.count = parent.count + 1
+    
+    
+    def getVideoFromLink(self, link):
+        episodes = None
+        
+        links = self.__getVideoLinks(link)
+
+        episode = self.createObject(links['normal'], links['hd'])
+        return episode
 
 
-    def getAnimesMetadata(self, items, quant, parent):
+    def getAnimesMetadata(self, items, quant):
         if len(items) < quant:
             quant = len(items)
-        
+        result = []
         # in case the result is lower than the desired offset returns None
         for i in range(quant):
             episodes = None
-            aTag = items[i].find('div', { "class" : 'videoTitle' }).a
+            
+            metaData = self.__getMetadata(items[i])
 
-            title = aTag.contents[0].encode('ascii','ignore')
-            image = items[i].find('img').get('src').encode('ascii','ignore')
-
-            episodes = self.createObject(title, image)
-            if episodes != None:
-                parent.setResult(episodes, i)
-
+            episode = self.createObject(metaData['title'], metaData['image'], link = metaData['link'])
+            if episode != None:
+                result.append(episode)
+        return result
 
     def getSearchItems(self, anime, order):
         # gets the correct URL
@@ -66,3 +53,39 @@ class anitube(functions):
         soup = BeautifulSoup(content)
         # returns all the items
         return soup.findAll('li', { "class" : 'mainList' })
+    
+    
+    def __getTitle(self, aTag):
+        return aTag.contents[0].encode('ascii','ignore')
+
+        
+    def __getImage(self, item):
+        return item.find('img').get('src').encode('ascii','ignore')
+    
+    
+    def __getVideoLinks(self, link):
+        hd = ''
+        normal = ''
+        
+        # calls to get the movie url
+        content = self.calUrl(link)
+        newSoup = BeautifulSoup(content)
+        data = newSoup.find(id="videoPlayer").findAll('script')[2].get('src')
+
+        response = urllib2.urlopen(data)
+
+        # loops throught the javascript lines to get the movie links
+        for line in response:
+            if 'cdn.anitu.be' in line:
+                if '_hd' in line:
+                    hd = line.rstrip()[9:-2]
+                else:
+                    normal = line.rstrip()[9:-2]
+        return {'hd': hd, 'normal': normal}
+    
+    def __getMetadata(self, item):
+        aTag = item.find('div', { "class" : 'videoTitle' }).a
+        title = self.__getTitle(aTag)
+        image = self.__getImage(item)
+        link = aTag.get('href')
+        return {'title': title, 'image': image, 'link': link}
