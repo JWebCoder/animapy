@@ -23,7 +23,7 @@ class anitube(functions):
         
         links = self.__getVideoLinks(link)
 
-        episode = self.createObject(links['normal'], links['hd'])
+        episode = self.createObject(normal=links['normal'],hd=links['hd'])
         return episode
 
 
