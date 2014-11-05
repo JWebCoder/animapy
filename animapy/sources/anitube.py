@@ -88,4 +88,4 @@ class anitube(functions):
         title = self.__getTitle(aTag)
         image = self.__getImage(item)
         link = aTag.get('href')
-        return {'title': title, 'image': image, 'link': link}
+        return {'title': title, 'image': image, 'link': link.encode('ascii','ignore')}
