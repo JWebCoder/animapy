@@ -1,5 +1,6 @@
 from animapy import anime
 
+#Test
 teste1 = anime.getAnimeLinks('http://www.anitube.se/video/79734/Ai-Tenchi-Muyo--22')
 teste2 = anime.getAnimeLinks('http://www.nwanime.com/one-piece-episode-668/video/69a0b530b6b09a092bf0/', lang='en')
 
