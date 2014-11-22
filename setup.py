@@ -7,7 +7,7 @@ here = path.abspath(path.dirname(__file__))
 setup(
     name='Animapy',
 
-    version='1.5.3',
+    version='1.5.3.1',
 
     description='An anime API for python',
 

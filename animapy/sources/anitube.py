@@ -76,7 +76,7 @@ class anitube(functions):
 
         # loops throught the javascript lines to get the movie links
         for line in response:
-            if 'cdn.anitu.be' in line:
+            if ('cdn.anitu.be' in line) or ('vid.anitu.be' in line):
                 if '_hd' in line:
                     hd = line.rstrip()[9:-2]
                 else:

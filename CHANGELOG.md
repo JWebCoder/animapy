@@ -1,3 +1,6 @@
+###v 1.5.3.1
+Updated anitube video links
+
 ###v 1.5.3
 Added possibility to get the video url based on a direct page link
 Bug fixes
