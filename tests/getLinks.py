@@ -1,3 +1,4 @@
+
 from animapy import anime
 
 teste1 = anime.getAnimeLinks('http://www.anitube.se/video/79734/Ai-Tenchi-Muyo--22')
