@@ -77,6 +77,12 @@ class anitube(functions):
         # gets the correct URL
         if order == 'date':
             url = 'http://www.anitube.se/search/basic/1/?sort=addate&search_type=&search_id=' + anime
+        elif order == 'title':
+            url = 'http://anitube.xpg.uol.com.br/search/basic/1/?sort=title&search_type=&search_id=' + anime
+        elif order == 'viewnum':
+            url = 'http://anitube.xpg.uol.com.br/search/basic/1/?sort=viewnum&search_type=&search_id=' + anime
+        elif order == 'rate':
+            url = 'http://anitube.xpg.uol.com.br/search/basic/1/?sort=rate&search_type=&search_id=' + anime
         else:
             url = 'http://www.anitube.se/search/?search_id=' + anime
             
